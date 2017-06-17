@@ -1,0 +1,38 @@
+{
+  "name": "lijs-meetup-brutus",
+  "version": "0.0.1",
+  "description": "The basics for getting started on your own Node.js RESTful API",
+  "main": "app.js",
+  "scripts": {
+    "start": "./node_modules/.bin/nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mikodin/lijs-meetup-brutus.git"
+  },
+  "author": "Mike Alicea",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mikodin/lijs-meetup-brutus/issues"
+  },
+  "homepage": "https://github.com/Mikodin/lijs-meetup-brutus#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "mongoose": "^4.10.6",
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.0.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.1.0",
+    "nodemon": "^1.11.0"
+  }
+}
