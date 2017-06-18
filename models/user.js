@@ -31,7 +31,21 @@ UserSchema.pre('save', function (next) {
   }
 });
 
-UserSchema.methods.comparePassword = function(password, cb) {
+UserSchema.methods.isProperPassword = function (clientPassword) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(clientPassword, this.password)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((compareError) => {
+        console.error(compareError);
+        console.error('Error in bcryptCompare');
+        reject(compareError);
+      });
+  });
+};
+
+UserSchema.methods.comparePassword = function (password, cb) {
   bcrypt.compare(password, this.password, (err, isMatch) => {
     if (err) return cb(err);
     cb(null, isMatch);

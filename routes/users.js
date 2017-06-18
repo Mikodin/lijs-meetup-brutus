@@ -1,6 +1,5 @@
 const express = require('express');
-let passport = require('passport');
-let jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
@@ -38,9 +37,7 @@ router.post('/register', (req, res) => {
 
 router.post('/auth', (req, res) => {
   const { email, password } = req.body;
-  User.findOne({
-    email,
-  }, (error, user) => {
+  User.findOne({ email }, (error, user) => {
     if (error) {
       res.status(400);
       return res.json({
@@ -49,26 +46,32 @@ router.post('/auth', (req, res) => {
       });
     }
 
-    if (!user) {
-      res.send({
-        message: 'User not found',
-      });
-      return false;
+    if (!user)
+      res.send({ message: 'User not found' });
+    else {
+      user.isProperPassword(password)
+        .then((result) => {
+          if (result) {
+            const token = jwt.sign(user, 'Super Secret', { expiresIn: '2 days' });
+            res.json({
+              message: 'Authentication succesful',
+              token,
+            });
+          } else {
+            res.status(401);
+            res.send({
+              message: 'Auth failed',
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500);
+          res.send({
+            message: err,
+          });
+        });
     }
-
-    user.comparePassword(password, function(err, isMatch) {
-      if (isMatch && !err) {
-        const token = jwt.sign(user, 'Super Secret', { expiresIn: '2 days' });
-        res.json({
-          message: 'Authentication succesful',
-          token,
-        });
-      } else {
-        res.send({
-          message: 'Auth failed',
-        });
-      }
-    });
   });
 });
 
