@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
-const users = require('./routes/users');
+const userRoute = require('./routes/user.route');
 const config = require('./config/index');
 
 const app = express();
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   res.send('Welcome To Brutus');
 });
 
-app.use('/users', users);
+app.use('/users', userRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
