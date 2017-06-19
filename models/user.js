@@ -20,14 +20,16 @@ const UserSchema = new Schema({
 UserSchema.pre('save', function (next) {
   const user = this;
   if (this.isModified('password') || this.isNew) {
-    bcrypt.genSalt(10, (saltErr, salt) => {
-      if (saltErr) return next(saltErr);
-      bcrypt.hash(user.password, salt, (hashErr, hash) => {
-        if (hashErr) return next(hashErr);
-        user.password = hash;
-        next();
-      });
-    });
+    bcrypt.genSalt(10)
+      .then((salt) => {
+        bcrypt.hash(user.password, salt)
+          .then((hash) => {
+            user.password = hash;
+            next();
+          })
+          .catch(hashErr => next(hashErr));
+      })
+      .catch(saltErr => next(saltErr));
   }
 });
 
@@ -42,14 +44,6 @@ UserSchema.methods.isProperPassword = function (clientPassword) {
         console.error('Error in bcryptCompare');
         reject(compareError);
       });
-  });
-};
-
-UserSchema.methods.comparePassword = function (password, cb) {
-  bcrypt.compare(password, this.password, (err, isMatch) => {
-    if (err) return cb(err);
-    cb(null, isMatch);
-    return true;
   });
 };
 
