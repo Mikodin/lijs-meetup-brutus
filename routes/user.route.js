@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 
+const { tokenSecret } = require('../config/index');
 const User = require('../models/user.model');
 
 const router = express.Router();
@@ -45,7 +46,9 @@ router.post('/auth', (req, res) => {
         user.isProperPassword(password)
           .then((result) => {
             if (result) {
-              const token = jwt.sign(user, 'Super Secret', { expiresIn: '2 days' });
+              const token =
+                jwt.sign(user, tokenSecret, { expiresIn: '2 days' });
+
               res.json({
                 message: 'Authentication succesful',
                 token,
