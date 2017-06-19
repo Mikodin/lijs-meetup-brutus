@@ -4,19 +4,19 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 
 const userRoute = require('./routes/user.route');
-const config = require('./config/index');
+const { dbIp } = require('./config/main.config');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(logger('dev'));
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.db.local);
+mongoose.connect(dbIp.local);
 
-const db = mongoose.connection;
-db.on('error', error => console.error(error));
-db.on('open', () => {
-  console.log('Connected to Mongo');
+const dbConn = mongoose.connection;
+dbConn.on('error', error => console.error(error));
+dbConn.on('open', () => {
+  console.log('Successfully Connected to MongoDB');
 });
 
 app.get('/', (req, res) => {
