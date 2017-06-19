@@ -6,21 +6,21 @@ const User = require('../models/user.model');
 const router = express.Router();
 
 router.post('/register', (req, res) => {
-  const { email, password } = req.body;
-  const user = new User({ email, password });
-  if (!email || !password) {
+  const { username, password } = req.body;
+  const newUser = new User({ username, password });
+  if (!username || !password) {
     res.status(400);
     res.json({
-      message: 'Both a valid email and password need to be provided',
+      message: 'Both a valid username and password need to be provided',
     });
     return false;
   }
 
-  user.save()
+  newUser.save()
     .then((savedUser) => {
       res.status(200);
       res.json({
-        message: `${savedUser.email} Saved successfully`,
+        message: `${savedUser.username} Saved successfully`,
       });
       return true;
     })
@@ -36,43 +36,43 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/auth', (req, res) => {
-  const { email, password } = req.body;
-  User.findOne({ email }, (error, user) => {
-    if (error) {
+  const { username, password } = req.body;
+  User.findOne({ username })
+    .then((user) => {
+      if (!user)
+        res.send({ message: 'User not found' });
+      else {
+        user.isProperPassword(password)
+          .then((result) => {
+            if (result) {
+              const token = jwt.sign(user, 'Super Secret', { expiresIn: '2 days' });
+              res.json({
+                message: 'Authentication succesful',
+                token,
+              });
+            } else {
+              res.status(401);
+              res.send({
+                message: 'Auth failed',
+              });
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            res.status(500);
+            res.send({
+              message: err,
+            });
+          });
+      }
+    })
+    .catch((error) => {
       res.status(400);
       return res.json({
         message: error.errmsg,
         code: error.code,
       });
-    }
-
-    if (!user)
-      res.send({ message: 'User not found' });
-    else {
-      user.isProperPassword(password)
-        .then((result) => {
-          if (result) {
-            const token = jwt.sign(user, 'Super Secret', { expiresIn: '2 days' });
-            res.json({
-              message: 'Authentication succesful',
-              token,
-            });
-          } else {
-            res.status(401);
-            res.send({
-              message: 'Auth failed',
-            });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          res.status(500);
-          res.send({
-            message: err,
-          });
-        });
-    }
-  });
+    });
 });
 
 module.exports = router;
