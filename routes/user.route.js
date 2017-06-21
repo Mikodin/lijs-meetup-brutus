@@ -1,6 +1,5 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
 
 const { tokenSecret } = require('../config/main.config');
 const User = require('../models/user.model');
@@ -78,12 +77,5 @@ router.post('/auth', (req, res) => {
       });
     });
 });
-
-// Example of required auth: protect dashboard route with JWT
-router.get('/dashboard',
-  passport.authenticate('jwt', { session: false }),
-  function (req, res) {
-    res.send('It worked! User id is: ' + req.user._id + '.');
-  });
 
 module.exports = router;

@@ -10,4 +10,4 @@ const WordSchema = new Schema({
   },
 });
 
-module.exports = mongoose.Model('Word', WordSchema);
+module.exports = mongoose.model('Word', WordSchema);

@@ -4,8 +4,10 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
-const userRoute = require('./routes/user.route');
 const { dbIp } = require('./config/main.config');
+
+const userRoute = require('./routes/user.route');
+const wordRoute = require('./routes/word.route');
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,6 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', userRoute);
+app.use('/words', wordRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
