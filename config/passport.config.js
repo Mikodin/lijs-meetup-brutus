@@ -13,6 +13,9 @@ function initPassport(passport) {
   };
 
   passport.use(new JwtStrategy(opts, (jwtPayload, done) => {
+    console.log(`---`);
+    console.log(jwtPayload);
+    console.log(`---`);
     User.findOne({ id: jwtPayload.id })
       .then((user) => {
         return user

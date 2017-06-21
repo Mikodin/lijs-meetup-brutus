@@ -16,22 +16,22 @@ const UserSchema = new Schema({
   },
 });
 
-// Must use normal callback to not lose 'this'
-UserSchema.pre('save', function (next) {
-  const user = this;
-  if (this.isModified('password') || this.isNew) {
-    bcrypt.genSalt(10)
-      .then((salt) => {
-        bcrypt.hash(user.password, salt)
-          .then((hash) => {
-            user.password = hash;
-            next();
-          })
-          .catch(hashErr => next(hashErr));
-      })
-      .catch(saltErr => next(saltErr));
-  }
-});
+UserSchema.pre('save',
+  function (next) {
+    const user = this;
+    if (this.isModified('password') || this.isNew) {
+      bcrypt.genSalt(10)
+        .then((salt) => {
+          bcrypt.hash(user.password, salt)
+            .then((hash) => {
+              user.password = hash;
+              next();
+            })
+            .catch(hashErr => next(hashErr));
+        })
+        .catch(saltErr => next(saltErr));
+    }
+  });
 
 UserSchema.methods.isProperPassword = function (clientPassword) {
   return new Promise((resolve, reject) => {
