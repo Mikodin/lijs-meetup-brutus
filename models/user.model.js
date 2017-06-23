@@ -16,6 +16,7 @@ const UserSchema = new Schema({
   },
 });
 
+/* Using function callback to perserve 'this' */
 UserSchema.pre('save',
   function (next) {
     const user = this;
