@@ -11,15 +11,15 @@ router.get('/:word',
     const word = req.params.word;
     Word.findOne({ word })
       .then((foundWord) => {
-        if (!foundWord) res.send({ hasPassword: false, message: 'Password not found' });
-        res.send({ hasPassword: true, message: 'Password was found.' });
+        if (!foundWord) res.json({ hasPassword: false, message: 'Password not found' });
+        res.json({ hasPassword: true, message: 'Password was found.' });
       })
       .catch((error) => {
         console.error(error);
         console.error(`Internal Error, Word.findOne(${word})`);
         res.status(500);
-        res.send({
-          message: error,
+        res.json({
+          error,
         });
       });
   });
@@ -41,10 +41,9 @@ router.post('/',
       .catch((error) => {
         console.error(error);
         console.error(`Internal Error, Word.save(${newWord})`);
-        res.status(400);
+        res.status(500);
         res.json({
-          message: error.errmsg,
-          code: error.code,
+          error,
         });
         return false;
       });
