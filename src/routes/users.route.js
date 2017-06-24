@@ -27,11 +27,9 @@ router.post('/register', (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.status(400);
-      res.json({
-        message: error.errmsg,
-        code: error.code,
-      });
+      console.error(`Internal Error, User.save(${JSON.stringify(newUser)})`);
+      res.status(500);
+      res.json({ error });
       return false;
     });
 });
@@ -60,21 +58,19 @@ router.post('/auth', (req, res) => {
               });
             }
           })
-          .catch((err) => {
-            console.error(err);
+          .catch((error) => {
+            console.error(error);
+            console.error(`Internal Error, User.isProperPassword(${password})`);
             res.status(500);
-            res.send({
-              message: err,
-            });
+            res.json({ error });
           });
       }
     })
-    .catch((error) => {
-      res.status(400);
-      return res.json({
-        message: error.errmsg,
-        code: error.code,
-      });
+    .catch((findError) => {
+      console.error(findError);
+      console.error(`Internal Error, User.findOne(${username})`);
+      res.status(500);
+      res.json({ findError });
     });
 });
 

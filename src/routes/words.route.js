@@ -18,9 +18,7 @@ router.get('/:word',
         console.error(error);
         console.error(`Internal Error, Word.findOne(${word})`);
         res.status(500);
-        res.json({
-          error,
-        });
+        res.json({ error });
       });
   });
 
@@ -42,9 +40,7 @@ router.post('/',
         console.error(error);
         console.error(`Internal Error, Word.save(${newWord})`);
         res.status(500);
-        res.json({
-          error,
-        });
+        res.json({ error });
         return false;
       });
   });
