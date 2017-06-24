@@ -7,7 +7,7 @@ const passport = require('passport');
 const { dbIp } = require('./src/config/main.config');
 
 const userRoute = require('./src/routes/users.route');
-const wordRoute = require('./src/routes/words.route');
+const passwordRoute = require('./src/routes/passwords.route');
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', userRoute);
-app.use('/words', wordRoute);
+app.use('/passwords', passwordRoute);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');

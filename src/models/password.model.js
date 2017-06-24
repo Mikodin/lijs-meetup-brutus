@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const WordSchema = new Schema({
-  word: {
+const PasswordSchema = new Schema({
+  password: {
     type: String,
     unique: true,
     required: true,
   },
 });
 
-module.exports = mongoose.model('Word', WordSchema);
+module.exports = mongoose.model('Password', PasswordSchema);

@@ -4,8 +4,6 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../models/user.model');
 const { tokenSecret } = require('./main.config');
 
-// Setup work and export for the JWT passport strategy
-
 function initPassport(passport) {
   const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeader(),
