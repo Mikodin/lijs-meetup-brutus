@@ -21,7 +21,8 @@ router.post('/',
         return true;
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
+        // console.error(error);
         res.status(400);
         res.json({
           message: error.errmsg,

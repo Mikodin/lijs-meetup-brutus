@@ -4,10 +4,10 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
-const { dbIp } = require('./config/main.config');
+const { dbIp } = require('./src/config/main.config');
 
-const userRoute = require('./routes/user.route');
-const wordRoute = require('./routes/word.route');
+const userRoute = require('./src/routes/user.route');
+const wordRoute = require('./src/routes/word.route');
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,10 +18,10 @@ mongoose.connect(dbIp.local);
 
 const dbConn = mongoose.connection;
 dbConn.on('open', () => { console.log('Successfully Connected to MongoDB'); });
-dbConn.on('error', error => console.error(error));
+dbConn.on('error', error => console.log(error));
 
 app.use(passport.initialize());
-require('./config/passport.config')(passport);
+require('./src/config/passport.config')(passport);
 
 app.get('/', (req, res) => {
   res.send('Welcome To Brutus');
