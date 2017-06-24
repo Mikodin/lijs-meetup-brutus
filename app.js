@@ -6,8 +6,8 @@ const passport = require('passport');
 
 const { dbIp } = require('./src/config/main.config');
 
-const userRoute = require('./src/routes/user.route');
-const wordRoute = require('./src/routes/word.route');
+const userRoute = require('./src/routes/users.route');
+const wordRoute = require('./src/routes/words.route');
 
 const app = express();
 app.use(bodyParser.json());
