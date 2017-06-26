@@ -5,8 +5,9 @@
 ### Key Takeaways
 * Managing users
   * User Registration
-  * User Sign In
   * One Way Encryption for passwords using BCrypt
+  * Storing users in the database
+  * User Sign In
 * Token Authorization - (JWT)
 * A solid base to start your own API
 
