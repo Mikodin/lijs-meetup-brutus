@@ -54,7 +54,7 @@ POST /users/auth
 ```javascript
 {
  "message": "Authentication succesful",
- "token": "(JSON Web Token)"
+ "token": "<JSON Web Token>"
 }
 ```
 
@@ -86,7 +86,7 @@ POST /passwords/
 ##### Parameters
 | Name | Type | Description|
 | :--- | :--- | :----------|
-| password | string | The password you wish to check |
+| password | string | The password you wish to add |
 
 ##### Response:
 `Status: 200 OK`
