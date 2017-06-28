@@ -9,6 +9,7 @@ router.get('/:password',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const password = req.params.word;
+
     Password.findOne({ password })
       .then((foundPassword) => {
         if (!foundPassword)
@@ -27,6 +28,7 @@ router.get('/:password',
 router.post('/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    // console.log(req);
     const { password } = req.body;
     const newPassword = new Password({ password });
 

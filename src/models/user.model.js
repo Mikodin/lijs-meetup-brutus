@@ -35,9 +35,11 @@ UserSchema.pre('save',
   });
 
 UserSchema.methods.isProperPassword = function (clientPassword) {
+        console.log(`BCrypt Compare ${clientPassword} ${this.password}`);
   return new Promise((resolve, reject) => {
     bcrypt.compare(clientPassword, this.password)
       .then((res) => {
+        console.log(`BCrypt Compare ${clientPassword} ${this.password} ${res}`);
         resolve(res);
       })
       .catch((compareError) => {

@@ -11,11 +11,19 @@ function initPassport(passport) {
   };
 
   passport.use(new JwtStrategy(opts, (jwtPayload, done) => {
-    User.findOne({ id: jwtPayload.id })
+    // console.log(jwtPayload._doc);
+    const userInReq = jwtPayload._doc;
+    User.findOne({ username: userInReq.username })
       .then((user) => {
-        return user
-          ? done(null, user)
-          : done(null, false);
+        // console.log(user);
+        user.isProperPassword(userInReq.password)
+          .then((isProperPassword) => {
+            console.log(isProperPassword);
+            console.log(userInReq);
+            return isProperPassword
+              ? done(null, user)
+              : done(null, false);
+          });
       })
       .catch(error => done(error, false));
   }));

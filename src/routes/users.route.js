@@ -9,11 +9,13 @@ const router = express.Router();
 router.post('/register', (req, res) => {
   const { username, password } = req.body;
   const newUser = new User({ username, password });
+
   if (!username || !password) {
     res.status(400);
     res.json({
       message: 'Both a valid username and password need to be provided',
     });
+
     return false;
   }
 
@@ -23,6 +25,7 @@ router.post('/register', (req, res) => {
       res.json({
         message: `${savedUser.username} Saved successfully`,
       });
+
       return true;
     })
     .catch((error) => {
@@ -30,12 +33,14 @@ router.post('/register', (req, res) => {
       console.error(`Internal Error, User.save(${JSON.stringify(newUser)})`);
       res.status(500);
       res.json({ error });
+
       return false;
     });
 });
 
 router.post('/auth', (req, res) => {
   const { username, password } = req.body;
+
   User.findOne({ username })
     .then((user) => {
       if (!user)
@@ -44,8 +49,7 @@ router.post('/auth', (req, res) => {
         user.isProperPassword(password)
           .then((result) => {
             if (result) {
-              const token =
-                jwt.sign(user, tokenSecret, { expiresIn: '2 days' });
+              const token = jwt.sign(user, tokenSecret, { expiresIn: '2d' });
 
               res.json({
                 message: 'Authentication succesful',
@@ -54,7 +58,7 @@ router.post('/auth', (req, res) => {
             } else {
               res.status(401);
               res.send({
-                message: 'Auth failed',
+                message: 'Auth failed please check the username or password',
               });
             }
           })
