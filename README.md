@@ -111,7 +111,7 @@ POST /passwords/
 | :-------------------------------- |:---------------------------------- | :---------------------------------  |
 | Enter the shell(from a bash command prompt) | `mongo` |
 | List all databases | `show dbs` |
-| Set DB as current DB | use <db> | `use brutus` |
+| Set DB as current DB | `use <db>` | `use brutus` |
 | View all collections on current DB | `show collections` |
 | View all records on a collection | `db.<collection>.find()` | `db.users.find()` |
 | Find a specific record | `db.<collection>.find( {<property>: <value>} )` | `db.users.find({username: 'mikodin'})` |
