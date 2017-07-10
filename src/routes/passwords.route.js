@@ -27,7 +27,6 @@ router.get('/:password',
 router.post('/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    console.log(req.body);
     const { password } = req.body;
     const newPassword = new Password({ password });
 
