@@ -24,10 +24,10 @@ router.get('/:password',
       });
   });
 
-router.post('/',
+router.post('/:password',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { password } = req.body;
+    const password = req.params.password;
     const newPassword = new Password({ password });
 
     newPassword.save()
